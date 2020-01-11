@@ -18,7 +18,7 @@
     "engines": {
         "node": ">=10.0.0 <11.0.0"
     },
-    "homepage": "https://github.com/dhanalakshnmi/opportunitycmp",
+    "homepage": "https://github.com/dhanalakshnmi/LWC",
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
@@ -51,7 +51,7 @@
         ],
         "exec": "node ./scripts/express-dev.js"
     },
-    "repository": "dhanalakshnmi/opportunitycmp",
+    "repository": "dhanalakshnmi/LWC",
     "scripts": {
         "build": "lwc-services build -m production",
         "build:development": "lwc-services build",
@@ -66,5 +66,9 @@
         "watch": "run-p watch:client watch:server",
         "watch:client": "lwc-services watch",
         "watch:server": "nodemon"
+		"test:unit": "sfdx-lwc-jest",
+		"test:unit:watch": "sfdx-lwc-jest --watch",
+		"test:unit:debug": "sfdx-lwc-jest --debug",
+ 
     }
 }
