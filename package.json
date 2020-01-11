@@ -66,9 +66,5 @@
         "watch": "run-p watch:client watch:server",
         "watch:client": "lwc-services watch",
         "watch:server": "nodemon"
-		"test:unit": "sfdx-lwc-jest",
-		"test:unit:watch": "sfdx-lwc-jest --watch",
-		"test:unit:debug": "sfdx-lwc-jest --debug",
- 
     }
 }
