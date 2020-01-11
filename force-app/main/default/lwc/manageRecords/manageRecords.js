@@ -1,7 +1,9 @@
-import { LightningElement, track, api} from 'lwc';
+import { LightningElement, track, api, wire} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import OpportunitiesController from '@salesforce/apex/OpportunitiesController.OpportunitiesController';
 import getOpportunitiesCount from '@salesforce/apex/OpportunitiesController.getOpportunitiesCount';
+import getOpportunityRecords from '@salesforce/apex/OpportunitiesController.getOpportunityRecords';
+import {refreshApex} from '@salesforce/apex';
 
 const COLS = [
     { label: 'Opportunity', fieldName: 'Name', editable: true, sortable: "true" },
@@ -11,12 +13,15 @@ const COLS = [
     { label: 'Amount', fieldName: 'Amount', type: 'currency', editable: true , sortable: "true"}
 ];
 export default class FetchMultipleRecords extends LightningElement { 
-    @track opportunities; 
+    @api opportunities; 
     @track error;
     @track columns = COLS;
     @track sortBy;
     @track sortDirection; 
     @track isChecked;
+    wiredOpportunities;
+
+    @api recordId;
     //pagination variables
     @api currentpage;  
     @api pagesize;  
@@ -35,6 +40,18 @@ export default class FetchMultipleRecords extends LightningElement {
     handleChange(event) {
         this.isChecked= event.target.checked;
     } 
+    @wire(getOpportunityRecords)
+    wiredRecords(result) {
+        this.wiredOpportunities = result;
+        if (result.data) {
+            this.opportunities = result.data;
+            this.error = undefined;
+        } else if (result.error) {
+            this.error = result.error;
+            this.opportunities = undefined;
+        }
+    }
+  
     //Method to fetch the opportunities
     renderedCallback() {  
     // This line added to avoid duplicate/multiple executions of this code.  
@@ -71,7 +88,7 @@ export default class FetchMultipleRecords extends LightningElement {
         this.error = error;  
         this.totalrecords = undefined;  
         });  
-    } 
+    }
     //Sorting Logic 
     handleSortdata(event) {
         // field name
@@ -144,5 +161,6 @@ export default class FetchMultipleRecords extends LightningElement {
             mode: 'dismissable'
         });
         this.dispatchEvent(evt);
+        return refreshApex(this.wiredOpportunities);
     }
 }

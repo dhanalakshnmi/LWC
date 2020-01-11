@@ -20,7 +20,8 @@ public with sharing class OpportunitiesController {
         }
         else if(searchString != null && searchString != '' && isAccountSearch != NULL){
             query += ' where Account.Name like \'%' + searchString + '%\' '; 
-        }   
+        }  
+        query +=' ORDER BY LastModifiedDate DESC'; 
         query += ' limit ' + pageSize + ' offset ' + (pageSize * (pagenumber - 1));  
         List<Opportunity> listOfOpportunities = Database.query(query);
         List<opportunityWrapper> listOfOpportunitiesData = new List<opportunityWrapper>();
@@ -58,6 +59,21 @@ public with sharing class OpportunitiesController {
             query += ' where Account.Name like \'%' + searchString + '%\' '; 
         } 
         return Database.countQuery(query);  
+    } 
+    /***
+	Name: getOpportunityRecords
+	Purpose: Methodto fetch updated records
+    Parameters: NA
+	Return Type: List of Opportunities
+	Created By: Dhanalakshmi
+	Created Date: 11/01/20192020
+	Modified By: 
+	**/
+    @AuraEnabled(cacheable = true)  
+    public static List<Opportunity> getOpportunityRecords() {  
+        String query = 'SELECT Id, Name, Account.Name, StageName, CloseDate, Amount FROM Opportunity ORDER BY LastModifiedDate DESC Limit 5'; 
+        List<Opportunity> listOfOpportunities = Database.query(query); 
+        return listOfOpportunities;
     } 
     //wrapper class to bind the data to LWC Component
     public class opportunityWrapper{
