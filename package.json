@@ -53,18 +53,18 @@
     },
     "repository": "dhanalakshnmi/LWC",
     "scripts": {
-        "build": "lwc-services build -m production",
-        "build:development": "lwc-services build",
+        "build": "sfdx-project build -m production",
+        "build:development": "sfdx-project build",
         "lint": "eslint ./src/**/*.js",
         "prettier": "prettier --write '**/*.{css,html,js,json,md,ts,yaml,yml}'",
         "prettier:verify": "prettier --list-different '**/*.{css,html,js,json,md,ts,yaml,yml}'",
-        "serve": "lwc-services serve",
-        "test:unit": "lwc-services test:unit",
-        "test:unit:coverage": "lwc-services test:unit --coverage",
-        "test:unit:debug": "lwc-services test:unit --debug",
-        "test:unit:watch": "lwc-services test:unit --watch",
+        "serve": "sfdx-project serve",
+        "test:unit": "sfdx-project test:unit",
+        "test:unit:coverage": "sfdx-project test:unit --coverage",
+        "test:unit:debug": "sfdx-project test:unit --debug",
+        "test:unit:watch": "sfdx-project test:unit --watch",
         "watch": "run-p watch:client watch:server",
-        "watch:client": "lwc-services watch",
+        "watch:client": "sfdx-project watch",
         "watch:server": "nodemon"
     }
 }
